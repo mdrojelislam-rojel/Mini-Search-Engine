@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Search Results - Mini Search</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f6f8;
+      color: #222;
+    }
+
+    /* =========================
+       TOP SEARCH HEADER
+    ========================= */
+
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 12px 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .mini-logo {
+      color: #ff4081;
+      font-size: 23px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .result-search-form {
+      flex: 1;
+      max-width: 700px;
+      display: flex;
+      align-items: center;
+      background: #f1f3f4;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      padding: 4px;
+    }
+
+    .result-search-input {
+      flex: 1;
+      min-width: 0;
+      padding: 11px 15px;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 16px;
+      color: #222;
+
+    }
+
+    .result-search-button {
+      border: none;
+      background: #ff4081;
+      color: white;
+      padding: 10px 19px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .result-search-button:hover {
+      background: #e91e63;
+    }
+
+
+    /* =========================
+       MAIN CONTENT
+    ========================= */
+
+    .main-content {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+    }
+
+    .search-info {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 25px;
+
+    }
+    .search-info strong {
+      color: #222;
+    }
+
+
+    /* =========================
+       RESULT CARD
+    ========================= */
+
+    .result-item {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid #e6e6e6;
+      transition: 0.2s;
+    }
+
+    .result-item:hover {
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .result-title {
+      display: block;
+      margin-bottom: 6px;
+      color: #1769aa;
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .result-title:hover {
+      text-decoration: underline;
+    }
+
+    .result-url {
+      display: block;
+      margin-bottom: 8px;
+      color: #188038;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .result-description {
+      margin: 0;
+      color: #555;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+      text-align: center;
+      padding: 70px 20px;
+      color: #666;
+    }
+
+    .spinner {
+      width: 45px;
+      height: 45px;
+      margin: 0 auto 15px;
+      border: 4px solid #ddd;
+      border-top-color: #ff4081;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       MESSAGE
+     ======================= */
+
+    .message {
+      background: white;
+      border-radius: 10px;
+      padding: 35px 20px;
+      text-align: center;
+      color: #666;
+      border: 1px solid #e5e5e5;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+      .top-header {
+        padding: 10px 12px;
+      }
+
+      .header-inner {
+        gap: 10px;
+      }
+      
+      .mini-logo {
+        font-size: 19px;
+      }
+
+      .result-search-form {
+        width: 100%;
+      }
+
+      .result-search-input {
+        font-size: 15px;
+        padding: 10px;
+      }
+
+      .result-search-button {
+        padding: 9px 14px;
+
+      }
+      .main-content {
+        padding: 22px 12px 60px;
+      }
+
+      .result-item {
+      padding: 17px;
+      }
+
+      .result-title {
+        font-size: 17px;
+      }
+
+      .result-description {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mini-logo {
+        display: none;
+      }
+
+      .header-inner {
+        display: block;
+      }
+      
+      .result-search-form {
+        width: 100%;
+      }
+
+      .result-search-button {
+
+        padding: 10px 13px;
+
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+
+  <header class="top-header">
+    <div class="header-inner">
+      <a href="index.html" class="mini-logo">
+        Mini Search
+      </a>
+
+      <form id="resultSearchForm" class="result-search-form">
+
+        <input
+          type="text"
+          id="resultQuery"
+          class="result-search-input"
+          placeholder="Search the web..."
+          autocomplete="off"
+          required  >
+        
+        <button
+          type="submit"
+          class="result-search-button">
+          Search
+        </button>
+      </form>
+    </div>
+  </header>
+  <!-- RESULTS Page-->
+
+  <main class="main-content">
+    <div id="searchInfo" class="search-info"></div>
+    <div id="results">
+      <div class="loading">
+        <div class="spinner"></div>
+        <div>
+          Searching...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+
+    const resultsDiv =
+      document.getElementById("results");
+
+    const searchInfo =
+      document.getElementById("searchInfo");
+
+    const resultQuery =
+      document.getElementById("resultQuery");
+
+    const resultSearchForm =
+      document.getElementById("resultSearchForm");
+
+    /* =========================
+       GET QUERY FROM URL
+    ========================== */
+
+    const params =
+      new URLSearchParams(window.location.search);
+    const query =
+      params.get("q");
+
+    /* =========================
+       IF NO QUERY
+    ========================== */
+
+    if (!query) {
+      resultsDiv.innerHTML = `
+        <div class="message">
+          Please enter something to search.
+        </div>
+      `;
+    } else {
+      resultQuery.value = query;
+      searchInfo.innerHTML =
+        `Search results for <strong>"${escapeHTML(query)}"</strong>`;
+      performSearch(query);
+
+    }
+
+    /* =========================
+       SEARCH FUNCTION
+    ========================== */
+
+    async function performSearch(query) {
+      resultsDiv.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <div>
+            Searching for
+            <strong>${escapeHTML(query)}</strong>...
+          </div>
+        </div>
+
+      `;
+
+
+      try {
+
+        /*
+        ==========================================
+        API CONFIGURATION
+        ------------------------------------------
+
+        API URL:
+        ------------------------------------------
+        const API_URL = "API_ENDPOINT";
+
+        API KEY:
+        ------------------------------------
+        const API_KEY = "API_KEY";
+        ====================================*/
+        const API_URL = "";
+        const API_KEY = "";
+
+
+        /* API এখনো বসানো নেই। তাই demo result দেখানো হচ্ছে। */
+
+        if (!API_URL || !API_KEY) {
+          await new Promise(resolve =>
+            setTimeout(resolve, 900)
+          );
+          showDemoResults(query);
+          return;
+
+        }
+
+        /*==========================
+             API REQUEST
+        ============================ */
+
+        const response = await fetch(
+          `${API_URL}?q=${encodeURIComponent(query)}`,
+          {
+            headers: {
+              "Ocp-Apim-Subscription-Key": API_KEY
+            }
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Search request failed"
+          );
+        }
+
+        const data =
+          await response.json();
+
+        displayResults(data);
+      }
+        
+      catch (error) {
+        console.error(error);
+        resultsDiv.innerHTML = `
+          <div class="message">
+            <strong>
+              Something went wrong.
+            </strong>
+
+            <br><br>
+
+            Please try again later.
+
+          </div>
+
+        `;
+      }
+    }
+
+
+    /* =========================
+       DEMO RESULTS
+    ========================== */
+
+    function showDemoResults(query) {
+      const demoResults = [
+
+        {
+          title: `Search result for ${query}`,
+          url: "https://example.com",
+          description:
+            "Your real search API is not connected yet. Replace the API URL and API key in results.html to display live search results."
+        },
+
+        {
+          title: "Mini Search Engine",
+          url: "https://example.com",
+          description:
+            "This is a demonstration result. Once you connect a search API, real web results will appear here."
+        },
+
+        {
+          title: "Search API Integration",
+          url: "https://example.com",
+          description:
+            "You can connect your preferred search API later without changing the main page design."
+        }
+      ];
+
+      renderResultCards(demoResults);
+    }
+
+    /* =========================
+       DISPLAY API RESULTS
+    ========================== */
+
+    function displayResults(data) {
+
+      /*  API response হলে data.webPages.value ব্যবহার করা যাবে। */
+
+      if (
+        !data.webPages ||
+        !data.webPages.value ||
+        data.webPages.value.length === 0
+      ) {
+        resultsDiv.innerHTML = `
+          <div class="message">
+            No results found for
+            <strong>
+              "${escapeHTML(query)}"
+            </strong>
+          </div>
+        `;
+        return;
+      }
+
+      const results =
+        data.webPages.value.map(item => ({
+          title: item.name,
+          url: item.url,
+          description: item.snippet || ""
+        }));
+      renderResultCards(results);
+    }
+
+    /* =========================
+       CREATE RESULT CARDS
+    ========================== */
+
+    function renderResultCards(results) {
+      resultsDiv.innerHTML = "";
+      results.forEach(item => {
+        const card =
+          document.createElement("article");
+        card.className = "result-item";
+
+        const title =
+          document.createElement("a");
+        title.className = "result-title";
+        title.href = item.url;
+        title.target = "_blank"
+        title.rel =
+          "noopener noreferrer";
+        title.textContent =
+          item.title;
+
+        const url =
+          document.createElement("span");
+
+        url.className = "result-url";
+
+        url.textContent =
+          item.url;
+
+        const description =
+          document.createElement("p");
+        description.className =
+          "result-description";
+        description.textContent =
+          item.description;
+
+        card.appendChild(title);
+        card.appendChild(url);
+        card.appendChild(description)
+        resultsDiv.appendChild(card);
+
+      });
+    }
+    /* =========================
+       SEARCH FROM RESULTS PAGE
+    ========================== */
+    resultSearchForm.addEventListener(
+      "submit",
+      function(event) {
+        event.preventDefault();
+        const newQuery =
+          resultQuery.value.trim();
+
+        if (!newQuery) {
+          return;
+        }
+        const encodedQuery =
+          encodeURIComponent(newQuery);
+
+        /* নতুন query দিয়ে
+          নতুন results page load হবে।*/
+        
+        window.location.href =
+          `results.html?q=${encodedQuery}`;
+      }
+    );
+
+    /* =========================
+       BASIC HTML ESCAPE
+    ========================== */
+
+    function escapeHTML(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+  </script>
+
+  </body>
+</html>
