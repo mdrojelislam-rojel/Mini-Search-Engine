@@ -3,29 +3,34 @@
 <head>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Search Results - Mini Search</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <title>Search Results - Pipilika Search</title>
 
   <style>
 
+    /* =========================
+       RESET
+    ========================= */
     * {
       box-sizing: border-box;
     }
-
     html {
       scroll-behavior: smooth;
     }
-
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
       background: #f5f6f8;
-      color: #222;
+      color: #222222;
+      min-height: 100vh;
     }
 
     /* =========================
-       TOP SEARCH HEADER
+       TOP HEADER
     ========================= */
 
     .top-header {
@@ -34,60 +39,87 @@
       z-index: 100;
       width: 100%;
       background: #ffffff;
-      border-bottom: 1px solid #e5e5e5;
-      padding: 12px 20px;
+      border-bottom:
+        1px solid #e5e5e5;
+      box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.05);
     }
 
+
     .header-inner {
+      width: 100%;
       max-width: 1100px;
       margin: auto;
+      padding:
+        12px 20px;
       display: flex;
       align-items: center;
       gap: 20px;
     }
 
-    .mini-logo {
+    /* =========================
+       LOGO
+    ========================= */
+    .logo {
+      flex-shrink: 0;
       color: #ff4081;
+      text-decoration: none;
       font-size: 23px;
       font-weight: 700;
       white-space: nowrap;
-      text-decoration: none;
     }
 
-    .result-search-form {
-      flex: 1;
+    .logo:hover {
+      color: #e91e63;
+    }
+
+    /* =========================
+       SEARCH BAR
+    ========================= */
+
+    .search-form {
+      width: 100%;
       max-width: 700px;
       display: flex;
       align-items: center;
-      background: #f1f3f4;
-      border: 1px solid #ddd;
-      border-radius: 30px;
       padding: 4px;
+      background: #f1f3f4;
+      border:
+        1px solid #dddddd;
+      border-radius: 30px;
     }
 
-    .result-search-input {
+    .search-input {
       flex: 1;
       min-width: 0;
-      padding: 11px 15px;
+      height: 42px;
+      padding:
+        0 15px;
       border: none;
       outline: none;
       background: transparent;
+      color: #222222;
       font-size: 16px;
-      color: #222;
-
     }
 
-    .result-search-button {
+    .search-button {
+      flex-shrink: 0;
+      height: 42px;
+      padding:
+        0 20px;
       border: none;
-      background: #ff4081;
-      color: white;
-      padding: 10px 19px;
       border-radius: 25px;
-      cursor: pointer;
+      background: #ff4081;
+      color: #ffffff;
+      font-size: 15px;
       font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .result-search-button:hover {
+
+    .search-button:hover {
       background: #e91e63;
     }
 
@@ -100,17 +132,24 @@
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding: 30px 20px 80px;
+      padding:
+        30px 20px 80px;
     }
+
+
+    /* =========================
+       SEARCH INFO
+    ========================= */
 
     .search-info {
-      color: #666;
-      font-size: 14px;
       margin-bottom: 25px;
-
+      color: #666666;
+      font-size: 14px;
+      line-height: 1.5;
     }
+
     .search-info strong {
-      color: #222;
+      color: #222222;
     }
 
 
@@ -119,18 +158,26 @@
     ========================= */
 
     .result-item {
-      background: #fff;
-      padding: 20px;
       margin-bottom: 15px;
+      padding: 20px;
+      background: #ffffff;
+      border:
+        1px solid #e5e5e5;
       border-radius: 10px;
-      border: 1px solid #e6e6e6;
-      transition: 0.2s;
+      transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
     }
 
+
     .result-item:hover {
-      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
-      transform: translateY(-1px);
+      box-shadow:
+        0 6px 20px
+        rgba(0, 0, 0, 0.08);
+      transform:
+        translateY(-1px);
     }
+
 
     .result-title {
       display: block;
@@ -140,12 +187,14 @@
       font-weight: 600;
       line-height: 1.4;
       text-decoration: none;
-      word-break: break-word;
+      overflow-wrap: anywhere;
     }
+
 
     .result-title:hover {
       text-decoration: underline;
     }
+
 
     .result-url {
       display: block;
@@ -155,33 +204,40 @@
       overflow-wrap: anywhere;
     }
 
+
     .result-description {
       margin: 0;
-      color: #555;
+      color: #555555;
       font-size: 15px;
       line-height: 1.6;
     }
-
 
     /* =========================
        LOADING
     ========================= */
 
     .loading {
+      padding:
+        70px 20px;
       text-align: center;
-      padding: 70px 20px;
-      color: #666;
+      color: #666666;
     }
+
 
     .spinner {
       width: 45px;
       height: 45px;
-      margin: 0 auto 15px;
-      border: 4px solid #ddd;
-      border-top-color: #ff4081;
+      margin:
+        0 auto 15px;
+      border:
+        4px solid #dddddd;
+      border-top-color:
+        #ff4081;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation:
+        spin 0.8s linear infinite;
     }
+
 
     @keyframes spin {
       to {
@@ -189,59 +245,87 @@
       }
     }
 
+
     /* =========================
        MESSAGE
-     ======================= */
+    ========================= */
 
     .message {
-      background: white;
+      padding: 40px 20px;
+      background: #ffffff;
+      border:
+        1px solid #e5e5e5;
       border-radius: 10px;
-      padding: 35px 20px;
       text-align: center;
-      color: #666;
-      border: 1px solid #e5e5e5;
+      color: #666666;
+      line-height: 1.6;
     }
+
+
+    /* =========================
+       HOME BUTTON
+    ========================= */
+
+    .home-button {
+      display: inline-block;
+      margin-top: 18px;
+      padding:
+        10px 18px;
+      background: #ff4081;
+      color: #ffffff;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+
+    .home-button:hover {
+      background: #e91e63;
+    }
+
 
     /* =========================
        MOBILE
     ========================= */
 
     @media (max-width: 700px) {
-      .top-header {
-        padding: 10px 12px;
-      }
-
       .header-inner {
+        padding:
+          10px 12px;
         gap: 10px;
       }
-      
-      .mini-logo {
+
+
+      .logo {
         font-size: 19px;
       }
 
-      .result-search-form {
-        width: 100%;
-      }
 
-      .result-search-input {
+      .search-input {
         font-size: 15px;
-        padding: 10px;
       }
 
-      .result-search-button {
-        padding: 9px 14px;
 
+      .search-button {
+        padding:
+          0 14px;
       }
+
+
       .main-content {
-        padding: 22px 12px 60px;
+        padding:
+          22px 12px 60px;
       }
+
 
       .result-item {
-      padding: 17px;
+        padding: 17px;
       }
 
       .result-title {
         font-size: 17px;
+
       }
 
       .result-description {
@@ -249,348 +333,409 @@
       }
     }
 
-    @media (max-width: 480px) {
-      .mini-logo {
-        display: none;
-      }
+    /* =========================
+       SMALL MOBILE
+    ========================= */
 
+    @media (max-width: 480px) {
       .header-inner {
         display: block;
+        padding: 10px;
       }
-      
-      .result-search-form {
+
+
+      .logo {
+        display: block;
+        margin-bottom: 8px;
+        text-align: center;
+
+      }
+
+
+      .search-form {
         width: 100%;
       }
 
-      .result-search-button {
 
-        padding: 10px 13px;
-
+      .search-input {
+        height: 40px;
+        padding:
+          0 10px;
       }
 
+
+      .search-button {
+        height: 40px;
+        padding:
+          0 13px;
+      }
     }
 
   </style>
 </head>
+
 <body>
-  <!-- HEADER -->
+
+  <!-- =========================
+       HEADER
+  ========================== -->
 
   <header class="top-header">
     <div class="header-inner">
-      <a href="index.html" class="mini-logo">
-        Mini Search
+
+      <!-- LOGO -->
+      <a href="index.html"
+        class="logo" >
+        Pipilika Search
       </a>
 
-      <form id="resultSearchForm" class="result-search-form">
-
+      <!-- SEARCH FORM -->
+      <form
+        id="searchForm"
+        class="search-form" 
+        >
+        
         <input
           type="text"
-          id="resultQuery"
-          class="result-search-input"
+          id="searchInput"
+          class="search-input"
           placeholder="Search the web..."
           autocomplete="off"
-          required  >
-        
+          required 
+          >
+
         <button
           type="submit"
-          class="result-search-button">
+          class="search-button"
+        >
           Search
         </button>
       </form>
+
     </div>
   </header>
-  <!-- RESULTS Page-->
+
+  <!-- =========================
+       MAIN
+  ========================== -->
 
   <main class="main-content">
-    <div id="searchInfo" class="search-info"></div>
+
+    <!-- SEARCH INFORMATION -->
+
+    <div
+      id="searchInfo"
+      class="search-info"
+    ></div>
+
+    <!-- RESULTS -->
+
     <div id="results">
       <div class="loading">
         <div class="spinner"></div>
         <div>
-          Searching...
+          Loading results...
         </div>
       </div>
     </div>
+
   </main>
 
   <script>
 
-    const resultsDiv =
-      document.getElementById("results");
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const searchForm =
+      document.getElementById(
+        "searchForm"
+      );
+
+    const searchInput =
+      document.getElementById(
+        "searchInput"
+      );
 
     const searchInfo =
-      document.getElementById("searchInfo");
+      document.getElementById(
+        "searchInfo"
+      );
 
-    const resultQuery =
-      document.getElementById("resultQuery");
-
-    const resultSearchForm =
-      document.getElementById("resultSearchForm");
+    const resultsDiv =
+      document.getElementById(
+        "results"
+      );
 
     /* =========================
        GET QUERY FROM URL
-    ========================== */
+    ========================= */
 
-    const params =
-      new URLSearchParams(window.location.search);
+    const urlParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
     const query =
-      params.get("q");
+      urlParams.get("q");
 
     /* =========================
-       IF NO QUERY
-    ========================== */
+       START
+    ========================= */
 
     if (!query) {
-      resultsDiv.innerHTML = `
-        <div class="message">
-          Please enter something to search.
-        </div>
-      `;
+      showMessage(
+        "No search query was provided."
+      );
     } else {
-      resultQuery.value = query;
+      searchInput.value = query;
       searchInfo.innerHTML =
-        `Search results for <strong>"${escapeHTML(query)}"</strong>`;
-      performSearch(query);
+        `Search results for
+        <strong>"${escapeHTML(query)}"</strong>`;
+      startSearch(query);
 
     }
 
     /* =========================
-       SEARCH FUNCTION
-    ========================== */
+       SEARCH
+    ========================= */
 
-    async function performSearch(query) {
+    function startSearch(query) {
+      /* Loading animation */
+
       resultsDiv.innerHTML = `
         <div class="loading">
           <div class="spinner"></div>
           <div>
             Searching for
-            <strong>${escapeHTML(query)}</strong>...
+            <strong>
+              ${escapeHTML(query)}
+            </strong>
           </div>
         </div>
-
       `;
 
-
-      try {
-
-        /*
-        ==========================================
-        API CONFIGURATION
-        ------------------------------------------
-
-        API URL:
-        ------------------------------------------
-        const API_URL = "API_ENDPOINT";
-
-        API KEY:
-        ------------------------------------
-        const API_KEY = "API_KEY";
-        ====================================*/
-        const API_URL = "";
-        const API_KEY = "";
-
-
-        /* API এখনো বসানো নেই। তাই demo result দেখানো হচ্ছে। */
-
-        if (!API_URL || !API_KEY) {
-          await new Promise(resolve =>
-            setTimeout(resolve, 900)
-          );
+      /* 
+       এখন API নেই। তাই 1.5 second delay-এর পর
+       Demo results দেখানো হচ্ছে।
+      */
+      setTimeout(
+        function () {
           showDemoResults(query);
-          return;
-
-        }
-
-        /*==========================
-             API REQUEST
-        ============================ */
-
-        const response = await fetch(
-          `${API_URL}?q=${encodeURIComponent(query)}`,
-          {
-            headers: {
-              "Ocp-Apim-Subscription-Key": API_KEY
-            }
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            "Search request failed"
-          );
-        }
-
-        const data =
-          await response.json();
-
-        displayResults(data);
-      }
-        
-      catch (error) {
-        console.error(error);
-        resultsDiv.innerHTML = `
-          <div class="message">
-            <strong>
-              Something went wrong.
-            </strong>
-
-            <br><br>
-
-            Please try again later.
-
-          </div>
-
-        `;
-      }
+        },
+        1500
+      );
     }
-
 
     /* =========================
        DEMO RESULTS
-    ========================== */
+    ========================= */
 
     function showDemoResults(query) {
       const demoResults = [
 
         {
-          title: `Search result for ${query}`,
-          url: "https://example.com",
+          title:
+            `About ${query} - Pipilika Search`,
+
+          url:
+            "https://example.com",
           description:
-            "Your real search API is not connected yet. Replace the API URL and API key in results.html to display live search results."
+            `This is a demo search result for "${query}". Your real search API will be connected here later.`
         },
 
         {
-          title: "Mini Search Engine",
-          url: "https://example.com",
+          title:
+            `Learn more about ${query}`,
+          url:
+            "https://example.com",
           description:
-            "This is a demonstration result. Once you connect a search API, real web results will appear here."
+            "This is another demonstration result. Once the API is connected, real web results will appear here."
         },
 
         {
-          title: "Search API Integration",
-          url: "https://example.com",
+          title:
+            `Search information for ${query}`,
+          url:
+            "https://example.com",
           description:
-            "You can connect your preferred search API later without changing the main page design."
+            "Pipilika Search is currently running in demo mode. The search engine API can be added later."
         }
+
       ];
 
-      renderResultCards(demoResults);
+      renderResults(
+        demoResults
+      );
     }
 
     /* =========================
-       DISPLAY API RESULTS
-    ========================== */
+       RENDER RESULTS
+    ========================= */
 
-    function displayResults(data) {
+    function renderResults(results) {
 
-      /*  API response হলে data.webPages.value ব্যবহার করা যাবে। */
-
-      if (
-        !data.webPages ||
-        !data.webPages.value ||
-        data.webPages.value.length === 0
-      ) {
-        resultsDiv.innerHTML = `
-          <div class="message">
-            No results found for
-            <strong>
-              "${escapeHTML(query)}"
-            </strong>
-          </div>
-        `;
-        return;
-      }
-
-      const results =
-        data.webPages.value.map(item => ({
-          title: item.name,
-          url: item.url,
-          description: item.snippet || ""
-        }));
-      renderResultCards(results);
-    }
-
-    /* =========================
-       CREATE RESULT CARDS
-    ========================== */
-
-    function renderResultCards(results) {
       resultsDiv.innerHTML = "";
-      results.forEach(item => {
-        const card =
-          document.createElement("article");
-        card.className = "result-item";
 
-        const title =
-          document.createElement("a");
-        title.className = "result-title";
-        title.href = item.url;
-        title.target = "_blank"
-        title.rel =
-          "noopener noreferrer";
-        title.textContent =
-          item.title;
+      results.forEach(
+        function (item) {
 
-        const url =
-          document.createElement("span");
+          const result =
+            document.createElement(
+              "article"
+            );
 
-        url.className = "result-url";
+          result.className =
+            "result-item";
 
-        url.textContent =
-          item.url;
+          /* TITLE */
 
-        const description =
-          document.createElement("p");
-        description.className =
-          "result-description";
-        description.textContent =
-          item.description;
+          const title =
+            document.createElement(
+              "a"
+            );
 
-        card.appendChild(title);
-        card.appendChild(url);
-        card.appendChild(description)
-        resultsDiv.appendChild(card);
+          title.className =
+            "result-title";
 
-      });
+          title.href =
+            item.url;
+
+          title.target =
+            "_blank";
+
+          title.rel =
+            "noopener noreferrer";
+
+          title.textContent =
+            item.title;
+
+          /* URL */
+          const url =
+            document.createElement(
+              "span"
+            );
+
+          url.className =
+            "result-url";
+
+          url.textContent =
+            item.url;
+
+          /* DESCRIPTION */
+          const description =
+            document.createElement(
+              "p"
+            );
+
+          description.className =
+            "result-description";
+
+          description.textContent =
+            item.description;
+
+          /* ADD */
+
+          result.appendChild(
+            title
+          );
+
+          result.appendChild(
+            url
+          );
+
+          result.appendChild(
+            description
+          );
+
+          resultsDiv.appendChild(
+            result
+          );
+        }
+      );
     }
+
     /* =========================
-       SEARCH FROM RESULTS PAGE
-    ========================== */
-    resultSearchForm.addEventListener(
+       NEW SEARCH
+    ========================= */
+
+    searchForm.addEventListener(
       "submit",
-      function(event) {
+      function (event) {
         event.preventDefault();
+
         const newQuery =
-          resultQuery.value.trim();
+          searchInput.value.trim();
 
         if (!newQuery) {
+          searchInput.focus();
           return;
         }
-        const encodedQuery =
-          encodeURIComponent(newQuery);
 
-        /* নতুন query দিয়ে
-          নতুন results page load হবে।*/
-        
+        const encodedQuery =
+          encodeURIComponent(
+            newQuery
+          );
+
+
+        /* New search করলে
+          নতুন URL তৈরি হবে। */
         window.location.href =
-          `results.html?q=${encodedQuery}`;
+          "results.html?q=" +
+          encodedQuery;
       }
     );
 
+
     /* =========================
-       BASIC HTML ESCAPE
-    ========================== */
+       MESSAGE
+    ========================= */
+
+    function showMessage(message) {
+      resultsDiv.innerHTML = `
+        <div class="message">
+          ${escapeHTML(message)}
+
+          <br>
+          <a
+            href="index.html"
+            class="home-button"
+          >
+            Back to Home
+          </a>
+        </div>
+      `;
+    }
+
+
+    /* =========================
+       HTML ESCAPE
+    ========================= */
 
     function escapeHTML(value) {
-      return value
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
     }
 
   </script>
-
-  </body>
+ </body>
 </html>
