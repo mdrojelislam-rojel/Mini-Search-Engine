@@ -4,226 +4,311 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Mini Search Engine</title>
-
+  <title>Pipilika Search</title>
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
       min-height: 100%;
-      font-family: Arial, sans-serif;
     }
+
+    /* =========================
+       BODY
+    ========================= */
 
     body {
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-
       padding: 20px;
-
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      color: #ffffff;
       background:
         linear-gradient(
-          rgba(0, 0, 0, 0.35),
-          rgba(0, 0, 0, 0.5)
+          rgba(0, 0, 0, 0.30),
+          rgba(0, 0, 0, 0.50)
         ),
-        url("flowers.jpg") center center / cover no-repeat fixed;
-
-      color: white;
+        url("flowers.jpg")  /* a normal flower photo*/
+        center center / cover no-repeat fixed;
     }
 
-    .home-container {
+
+    /* =========================
+       MAIN CONTAINER
+    ========================= */
+
+    .search-container {
       width: 100%;
-      max-width: 800px;
+      max-width: 850px;
       text-align: center;
     }
 
+    /* =========================
+       LOGO
+    ========================= */
+
     .logo {
-      font-size: clamp(32px, 7vw, 55px);
+      margin: 0 0 10px;
+      font-size:
+        clamp(38px, 8vw, 64px);
       font-weight: 700;
-      margin-bottom: 12px;
+      letter-spacing: -1px;
+      text-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.35);
     }
 
-    .subtitle {
-      font-size: 17px;
-      margin-bottom: 30px;
-      opacity: 0.9;
+
+    .tagline {
+      margin: 0 0 32px;
+      font-size:
+        clamp(14px, 3vw, 18px);
+      line-height: 1.5;
+      opacity: 0.92;
     }
+
+
+    /* =========================
+       SEARCH FORM
+    ========================= */
 
     .search-form {
       width: 100%;
       display: flex;
       align-items: center;
-
+      gap: 7px;
       padding: 7px;
-
-      background: rgba(255, 255, 255, 0.96);
+      background:
+        rgba(255, 255, 255, 0.96);
       border-radius: 50px;
-
       box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.3);
+        0 12px 40px
+        rgba(0, 0, 0, 0.30);
+
     }
 
+
+    /* =========================
+       SEARCH INPUT
+    ========================= */
     .search-input {
       flex: 1;
       min-width: 0;
-
-      padding: 15px 20px;
-
+      height: 52px;
+      padding: 0 20px;
       border: none;
       outline: none;
-
       background: transparent;
-
-      color: #222;
+      color: #222222;
       font-size: 17px;
+
     }
 
     .search-input::placeholder {
-      color: #777;
+      color: #777777;
     }
+
+    /* =========================
+       SEARCH BUTTON
+    ========================= */
 
     .search-button {
+      flex-shrink: 0;
+      height: 52px;
+      padding: 0 26px;
       border: none;
-      outline: none;
-
-      padding: 14px 25px;
-
       border-radius: 40px;
-
       background: #ff4081;
-      color: white;
-
+      color: #ffffff;
       font-size: 16px;
       font-weight: 600;
-
       cursor: pointer;
-
-      transition: 0.25s;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
     }
+
 
     .search-button:hover {
       background: #e91e63;
-      transform: translateY(-1px);
+      transform:
+        translateY(-1px);
     }
+
 
     .search-button:active {
-      transform: scale(0.97);
+      transform:
+        scale(0.97);
     }
 
-    .footer-text {
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
       margin-top: 25px;
       font-size: 13px;
       opacity: 0.75;
     }
 
-    /* Mobile */
-    @media (max-width: 600px) {
 
+    /* =========================
+      MOBILE RESPONSIV 
+    ========================= */
+
+    @media (max-width: 600px) {
       body {
         padding: 15px;
-        background-attachment: scroll;
+        background-attachment:
+          scroll;
       }
+
 
       .logo {
-        font-size: 32px;
+        font-size: 38px;
       }
 
-      .subtitle {
+
+      .tagline {
+        margin-bottom: 23px;
         font-size: 14px;
-        margin-bottom: 22px;
       }
+
 
       .search-form {
         flex-direction: column;
+        gap: 8px;
         padding: 8px;
-
         border-radius: 18px;
       }
 
+
       .search-input {
         width: 100%;
-        padding: 14px;
+        height: 50px;
+        padding:
+          0 14px;
         font-size: 16px;
       }
 
       .search-button {
         width: 100%;
+        height: 50px;
         border-radius: 12px;
-        padding: 13px;
       }
     }
+
+    /* =========================
+       SMALL PHONES
+    ========================= */
+    @media (max-width: 360px) {
+      .logo {
+        font-size: 32px;
+      }
+      
+      .search-input {
+        font-size: 15px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
+  <main class="search-container">
 
-  <main class="home-container">
+    <h1 class="logo">
+      Pipilika Search  <!--I don't have a logo right now, so I'll just use the name -->
+    </h1>
 
-    <div class="logo">
-      Mini Search
-    </div>
+    <!-- TAGLINE -->
 
-    <div class="subtitle">
+    <p class="tagline">
       Search the web quickly and easily
-    </div>
+    </p>
 
-    <form id="searchForm" class="search-form">
-
+    <!-- SEARCH FORM -->
+    <form
+      id="searchForm"
+      class="search-form"
+    >
       <input
-        type="text"
-        id="query"
+        id="searchInput"
         class="search-input"
+        type="text"
+        name="q"
         placeholder="Search the web..."
         autocomplete="off"
+        aria-label="Search"
         required
       >
 
-      <button type="submit" class="search-button">
+      <button
+        type="submit"
+        class="search-button"
+      >
         Search
       </button>
-
     </form>
 
-    <div class="footer-text">
-      Mini Search Engine
+    <!-- FOOTER -->
+    <div class="footer">
+      Pipilika Search
     </div>
-
   </main>
-
 
   <script>
 
-    const searchForm = document.getElementById("searchForm");
-    const queryInput = document.getElementById("query");
+    /* =========================
+       SEARCH NAVIGATION
+    ========================= */
 
-    searchForm.addEventListener("submit", function(event) {
+    const searchForm =
+      document.getElementById(
+        "searchForm"
+      );
 
-      event.preventDefault();
+    const searchInput =
+      document.getElementById(
+        "searchInput"
+      );
 
-      const query = queryInput.value.trim();
+    searchForm.addEventListener(
+      "submit",
+      function (event) {
+        event.preventDefault();
+        const query =
+          searchInput.value.trim();
+        if (!query) {
+          searchInput.focus();
+          return;
+        }
 
-      if (!query) {
-        return;
+        /*
+          The search query will be passed via 
+           the URL to results.html.
+          Example: 
+           results.html?q=AIRCRAFT
+        */
+
+        const encodedQuery =
+          encodeURIComponent(query);
+
+        window.location.href =
+          "results.html?q=" +
+          encodedQuery;
       }
-
-      /*
-        Search query URL-এর মাধ্যমে results.html-এ পাঠানো হচ্ছে।
-
-        Example:
-        results.html?q=football
-      */
-
-      const encodedQuery = encodeURIComponent(query);
-
-      window.location.href = `results.html?q=${encodedQuery}`;
-
-    });
-
+    );
   </script>
-
-</body>
+ </body>
 </html>
