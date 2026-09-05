@@ -449,6 +449,68 @@
 <!-- add fuse spell checker -->
 <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.mjs"></script>
   <script>
+    //  দুটি শব্দের মধ্যকার দূরত্ব বা অমিল মাপার অ্যালগরিদম (Levenshtein Distance)
+function getLevenshteinDistance(str1, str2) {
+    const track = Array(str2.length + 1).fill(null).map(() =>
+        Array(str1.length + 1).fill(null));
+    for (let i = 0; i <= str1.length; i += 1) track[0][i] = i;
+    for (let j = 0; j <= str2.length; j += 1) track[j][0] = j;
+    for (let j = 1; j <= str2.length; j += 1) {
+        for (let i = 1; i <= str1.length; i += 1) {
+            const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+            track[j][i] = Math.min(
+                track[j][i - 1] + 1, // deletion
+                track[j - 1][i] + 1, // insertion
+                track[j - 1][i - 1] + indicator // substitution
+            );
+        }
+    }
+    return track[str2.length][str1.length];
+}
+
+//  ভুল বানান সংশোধন ও খোঁজার মূল ফাংশন
+function searchBangla(userInput) {
+    userInput = userInput.trim();
+    if (!userInput) return [];
+
+    // হুবহু মিলে গেলে সরাসরি ফলাফল দেখাবে
+    const exactMatch = banglaKeywords.filter(word => word.includes(userInput));
+    if (exactMatch.length > 0) return exactMatch;
+
+    // ভুল বানানের ক্ষেত্রে সবচেয়ে কাছাকাছি শব্দ খুঁজবে
+    let bestMatches = [];
+    let minDistance = 3; // সর্বোচ্চ ৩টি অক্ষরের ভুল ক্ষমা করা হবে
+
+    banglaKeywords.forEach(word => {
+        const distance = getLevenshteinDistance(userInput, word);
+        if (distance <= minDistance) {
+            bestMatches.push({ word: word, distance: distance });
+        }
+    });
+
+    // কম ভুলের শব্দগুলোকে আগে সাজাবে
+    bestMatches.sort((a, b) => a.distance - b.distance);
+    return bestMatches.map(item => item.word);
+}
+
+// সার্চ বক্সের সাথে ইনপুট যুক্ত করা
+const searchInput = document.getElementById("searchBox"); // আপনার HTML ইনপুট আইডি
+const resultDiv = document.getElementById("results");     // ফলাফল দেখানোর জায়গা
+
+searchInput.addEventListener("input", (e) => {
+    const query = e.target.value;
+    const suggestions = searchInput.value ? searchBangla(query) : [];
+    
+    // UI-তে ফলাফল বা "আপনি কি বোঝাতে চেয়েছেন" দেখানো
+    if (suggestions.length > 0) {
+        resultDiv.innerHTML = `আপনি কি খুঁজছেন: <b>${suggestions.join(', ')}</b>`;
+    } else if(query) {
+        resultDiv.innerHTML = "কোনো মিল পাওয়া যায়নি!";
+    } else {
+        resultDiv.innerHTML = "";
+    }
+});
+
 
     /* =========================
        ELEMENTS
